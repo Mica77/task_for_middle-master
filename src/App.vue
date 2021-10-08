@@ -1,26 +1,46 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  
+  <div class="content">
+    <h1>Список квартир</h1>
+    <div class="flats-list">
+      <flat-card
+        v-for="flat in $store.state.flats"
+        :key="flat.id"
+        :flat="flat"
+        @addLike="addLike"
+        @removeLike="removeLike"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import FlatCard from './components/FlatCard.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    FlatCard
+  },
+  methods: {
+    addLike(flat) {
+      this.$store.commit('addLike', flat)
+    },
+    removeLike(flat) {
+      this.$store.commit('removeLike', flat)
+    }
+  },
+  mounted() {
+    this.$store.dispatch('fetchFlats')
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
+ .content {
+   max-width: 600px;
+   margin: auto;
+ }
+
 </style>
